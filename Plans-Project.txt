@@ -1,0 +1,106 @@
+
+int lastInsertId = statement.executeUpdate("SELECT LAST_INSERT_ID()");
+
+
+LibraryApp:
+	Students:
+		int studentID Pk
+		String studentName
+		String studentPhone
+		String studentPassword
+
+	Admins: 
+		String adminID pk
+		String adminName
+		String role
+		String adminPhone
+		String adminPassword
+
+	Books:
+		int bID: pk (AI)
+		String title
+		String author
+		String year
+		String category
+		String page
+		String quality: old medium new unreadable
+		String bookshelf;
+		int quantity;
+		int remain;
+		String bookCoverPath;
+
+			
+	Borrow_List:
+		int bookId Foreign Key Reference Books(bookId)
+		String borrower foreign key referrences Students(studentID);
+		String borrowDate
+		String returnDate
+		int isReturned : Enum(1,0) default 1
+
+
+-- Add column:
+alter TABLE borrow_list 
+add borrower varchar(50),
+add foreign key (borrower) references students(studentID);
+
+-- Rename column
+ALTER TABLE TableName
+CHANGE COLUMN OldName newName datatype,
+CHANGE COLUMN OldName2 newName2 datatype;
+--------------------------------------
+TableView:
+--------------------------------------
+ExploreBook: 
+	String bookId
+	String title
+	String author
+	String year
+	String category
+	String page
+	String borrowed : yes - no
+
+stDashboard:
+	String bookId
+	String title
+	String author
+	String year
+	String category
+	String borrowDate
+	String returnDate
+
+AdminBookList:
+	String bookId
+	String title
+	String author
+	String year
+	String category
+	String place
+	String borrowed
+
+AdminStBorrowedList:
+	String bookId
+	String title
+	String studentName
+	String studentId
+
+AminStudentList
+	String studentId
+	String studentName
+	String studentPhone
+-----------------------------------------------------------
+
+App Process
+
+Homepage -> User -> LogInPage     -> | ExplorePage -> BorrowPage
+		     -> stSignInPage	 | DashBoard
+						 | EditeInfo
+						 | Borrowed
+
+
+		
+	
+	
+	
+
+
+	
