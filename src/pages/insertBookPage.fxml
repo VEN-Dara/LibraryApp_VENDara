@@ -207,6 +207,14 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
+                        <Button fx:id="borrowBookBtn" layoutY="344.0" mnemonicParsing="false" onAction="#handleBorrowBookBtn" prefHeight="44.0" prefWidth="196.0" style="-fx-background-color: #DDE6ED;" text="Borrow Book" textAlignment="CENTER">
+                           <font>
+                              <Font name="Times New Roman" size="20.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
                      </children>
                   </AnchorPane>
                </left>

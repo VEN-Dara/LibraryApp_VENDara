@@ -2,9 +2,9 @@ package Controllers;
 
 import java.time.LocalDate;
 
+import API.AdminBorrowAPI;
 import API.BookListAPI;
 import API.Books;
-import API.StudentExploreAPI;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,13 +22,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
-public class StudentExploreController {
+public class AdminBorrowController {
 
     Services services = new Services();
     BookListAPI bookListAPI = new BookListAPI();
     Books books;
-    StudentExploreAPI studentExploreAPI = new StudentExploreAPI();
-    public String studentID = LogInController.userID;
+    AdminBorrowAPI adminBorrowAPI = new AdminBorrowAPI();
 
     @FXML
     private Button addToCartBtn;
@@ -109,22 +108,24 @@ public class StudentExploreController {
     private Button comedyCategoryBtn;
 
     @FXML
-    private Button dashBoardBtn;
-
-    @FXML
     private Button deleteCartBtn;
-
-    @FXML
-    private Button editeInfoBtn;
-
-    @FXML
-    private Button exploreBtn;
 
     @FXML
     private Button historyCategoryBtn;
 
     @FXML
     private Button logOutBtn;
+
+    @FXML
+    private Button listBookBtn;
+    @FXML
+    private Button listBorrowBtn;
+    @FXML
+    private Button studentInfoBtn;
+    @FXML
+    private Button adminInfo;
+    @FXML
+    private Button insertBookBtn;
 
     @FXML
     private TableColumn<Books, Integer> pageColCart;
@@ -148,7 +149,7 @@ public class StudentExploreController {
     private TextField searchField;
 
     @FXML
-    private Text studentName;
+    private Text adminID;
 
     @FXML
     private TableView<Books> tableView;
@@ -181,6 +182,12 @@ public class StudentExploreController {
     private ComboBox<String> categoryComboBox;
 
     @FXML
+    private TextField borrowerNameField;
+
+    @FXML
+    private TextField borrowerNumberPhoneField;
+
+    @FXML
     void haddleCategoryComboBox(ActionEvent event) {
         String category = categoryComboBox.getValue();
         if (category.equalsIgnoreCase("All")) {
@@ -192,32 +199,32 @@ public class StudentExploreController {
 
     }
 
-    public static int limitOfBorrowing;
-
     @FXML
     void handleAddToCartBtn(ActionEvent event) {
         if (selectedBook != null) {
+            books = new Books(selectedBook.getBookID(), selectedBook.getTitle(), selectedBook.getAuthor(),
+                    selectedBook.getYear(), selectedBook.getCategory(), selectedBook.getPage(),
+                    selectedBook.getBookshelf());
+
             boolean bookExist = false;
-            for (Books b : cartList) {
-                if (b.getBookID() == books.getBookID()) {
+            for(Books b : cartList) {
+                if(b.getBookID() == books.getBookID()) {
                     bookExist = true;
                     break;
                 }
             }
-
-            if (bookExist) {
+            
+            if(bookExist) {
                 services.alertWarnning("Warning", "Books already exist in cart ...");
 
             }
-            else if (limitOfBorrowing - cartList.size() > 0) {
-                books = new Books(selectedBook.getBookID(), selectedBook.getTitle(), selectedBook.getAuthor(),
-                        selectedBook.getYear(), selectedBook.getCategory(), selectedBook.getPage(),
-                        selectedBook.getBookshelf());
+            else if (cartList.size() < 5 && !cartList.contains(books)) {
                 cartList.add(books);
                 selectedBook = null;
                 cartNumber.setText(Integer.toString(cartList.size()));
-            } else {
-                services.alertWarnning("Can't Borrow", "You're out of limitation for borrowing ... !");
+            }
+            else {
+                services.alertWarnning("Sorry", "You're out of limitation for cart ... !");
             }
         } else {
             services.alertWarnning("Warning", "Please select book first ...");
@@ -226,7 +233,7 @@ public class StudentExploreController {
 
     @FXML
     void handleBackPane(ActionEvent event) {
-        services.openPage(event, "/pages/studentExplorePage.fxml");
+        services.openPage(event, "/pages/adminBorrowPage.fxml");
     }
 
     @FXML
@@ -237,23 +244,25 @@ public class StudentExploreController {
                     selectedBook.getBookshelf());
 
             boolean bookExist = false;
-            for (Books b : cartList) {
-                if (b.getBookID() == books.getBookID()) {
+            for(Books b : cartList) {
+                if(b.getBookID() == books.getBookID()) {
                     bookExist = true;
                     break;
                 }
             }
-
-            if (bookExist) {
+            
+            if(bookExist) {
                 services.alertWarnning("Warning", "Books already exist in cart ...");
 
-            } else if (limitOfBorrowing - cartList.size() > 0) {
+            }
+            else if (cartList.size() < 5 && !cartList.contains(books)) {
                 cartList.add(books);
                 handleCartBtn(event);
                 bookDetailsPane.setVisible(false);
                 selectedBook = null;
                 cartNumber.setText(Integer.toString(cartList.size()));
-            } else {
+            }
+            else {
                 services.alertWarnning("Sorry", "You're out of limitation for cart ... !");
             }
         } else {
@@ -266,15 +275,27 @@ public class StudentExploreController {
         LocalDate now = LocalDate.now();
         String borrowDate = now.toString();
         String returnDate = "0000-00-00";
+        String borrower = borrowerNameField.getText();
+        String numberPhone = borrowerNumberPhoneField.getText();
+        int limitOfBorrowing = 5 - adminBorrowAPI.getNumberOfBookBorrowerBorrow(numberPhone);
+
         if (returnDatePicker.getValue() != null) {
             returnDate = returnDatePicker.getValue().toString();
         }
-        if (returnDate.equalsIgnoreCase("0000-00-00")) {
-            services.alertWarnning("Warning ...", "Please pick return date ...");
-        } else {
-            studentExploreAPI.borrowBook(cartList, studentID, borrowDate, returnDate, "0");
+        if (returnDate.equalsIgnoreCase("0000-00-00") || borrower == "" || numberPhone == "") {
+            services.alertWarnning("Warning ...", "Please complete all fields ...");
+        }
+        else if(limitOfBorrowing == 0) {
+            services.alertWarnning("You're out of limitation for borrowing ... !", "You already borrowed 5 books.");
+        }
+        else if(cartList.size() > limitOfBorrowing) {
+            services.alertWarnning("You're out of limitation for borrowing ... !", "You can borrow only " + limitOfBorrowing + " more books.");
+        }
+        else {
+            adminBorrowAPI.borrowBook(cartList, borrower, numberPhone, borrowDate, returnDate, "0");
             cartList.clear();
             tableViewCart.setItems(null);
+            handleBackPane(event);
         }
     }
 
@@ -298,11 +319,6 @@ public class StudentExploreController {
     }
 
     @FXML
-    void handleDashboardBtn(ActionEvent event) {
-        services.openPage(event, "/pages/studentDashboardPage.fxml");
-    }
-
-    @FXML
     void handleDeleteCartBtn(ActionEvent event) {
         if (selectedIndex == -1) {
             services.alertWarnning("Wanning", "Please select book in the list first ...");
@@ -311,16 +327,6 @@ public class StudentExploreController {
             cartList.remove(index);
             selectedIndex = -1;
         }
-
-    }
-
-    @FXML
-    void handleEditeBtn(ActionEvent event) {
-
-    }
-
-    @FXML
-    void handleExploreBtn(ActionEvent event) {
 
     }
 
@@ -354,17 +360,34 @@ public class StudentExploreController {
         tableView.setItems(bookListAPI.getBookList());
     }
 
+    @FXML
+    void handleListBookBtn(ActionEvent event) {
+        services.openPage(event, "/pages/adminBookListPage.fxml");
+    }
+    @FXML
+    void handlelistBorrowBtn(ActionEvent event) {
+        services.openPage(event, "/pages/adminBorrowListPage.fxml");
+    }
+    @FXML
+    void handleStudentInfoBtn(ActionEvent event) {
+        services.openPage(event, "/pages/adminStudentInfoPage.fxml");
+    }
+    @FXML
+    void handleAdminInfo(ActionEvent event) {
+        services.openPage(event, "/pages/adminInfoPage.fxml");
+    }
+    @FXML
+    void handleInsertBookBtn(ActionEvent event) {
+        services.openPage(event, "/pages/insertBookPage.fxml");
+    }
+
     Books selectedBook;
 
     @FXML
     void selectItem(MouseEvent event) {
-        // Check if the user clicked on a row
+
         if (event.getClickCount() == 1) {
-
-            // Get the table view's selection model
             TableView.TableViewSelectionModel<Books> selectionModel = tableView.getSelectionModel();
-
-            // Get the selected row
             selectedBook = selectionModel.getSelectedItem();
         } else if (event.getClickCount() >= 2) {
             openBookDetail();
@@ -372,10 +395,9 @@ public class StudentExploreController {
     }
 
     int selectedIndex;
-
     @FXML
     void selectItemCart(MouseEvent event) {
-        if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 1) {
+        if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() >= 1) {
             selectedIndex = tableViewCart.getSelectionModel().getSelectedIndex();
         }
     }
@@ -388,8 +410,7 @@ public class StudentExploreController {
         bookDetailsPane.setVisible(false);
         cartPane.setVisible(false);
         cartNumber.setText(Integer.toString(cartList.size()));
-        limitOfBorrowing = 5 - studentExploreAPI.getNumberOfBookStudentBorrow(studentID);
-        studentName.setText(studentID);
+        adminID.setText(LogInController.userID);
     }
 
     public void showListBook() {
@@ -427,7 +448,6 @@ public class StudentExploreController {
     }
 
     public static ObservableList<Books> cartList = FXCollections.observableArrayList();
-
     public void showCartList() {
         bookIdColCart.setCellValueFactory(new PropertyValueFactory<>("bookID"));
         titleColCart.setCellValueFactory(new PropertyValueFactory<>("title"));

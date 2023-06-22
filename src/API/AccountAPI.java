@@ -35,15 +35,14 @@ public class AccountAPI {
         }
     }
 
-    public void registerAdmin(String adminID, String adminName, String role, String adminPhone, String adminPassword) {
+    public void registerAdmin(String adminID, String adminName, String adminPhone, String adminPassword) {
         try {
-            String insertSql = "INSERT INTO admins(adminID, adminName, role, adminPhone, adminPassword) VALUES (?,?,?,?,?)";
+            String insertSql = "INSERT INTO admins(adminID, adminName, adminPhone, adminPassword) VALUES (?,?,?,?)";
             stmt = conn.prepareStatement(insertSql);
             stmt.setString(1, adminID);
             stmt.setString(2, adminName);
-            stmt.setString(3, role);
-            stmt.setString(4, adminPhone);
-            stmt.setString(5, adminPassword);
+            stmt.setString(3, adminPhone);
+            stmt.setString(4, adminPassword);
             stmt.executeUpdate();
 
         } catch (Exception e) {

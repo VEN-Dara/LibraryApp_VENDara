@@ -84,8 +84,16 @@ public class editBookController {
     private TextField yearField;
 
     @FXML
-    void handleAdminInfo(ActionEvent event) {
+    private Button borrowBookBtn;
 
+    @FXML
+    void handleBorrowBookBtn(ActionEvent event) {
+        services.openPage(event, "/pages/adminBorrowPage.fxml");
+    }
+
+    @FXML
+    void handleAdminInfo(ActionEvent event) {
+        services.openPage(event, "/pages/adminInfoPage.fxml");
     }
 
     @FXML
@@ -167,12 +175,12 @@ public class editBookController {
 
     @FXML
     void handleStudentInfoBtn(ActionEvent event) {
-
+        services.openPage(event, "/pages/adminStudentInfoPage.fxml");
     }
 
     @FXML
     void handlelistBorrowBtn(ActionEvent event) {
-
+        services.openPage(event, "/pages/adminBorrowListPage.fxml");
     }
 
     @FXML
@@ -185,6 +193,7 @@ public class editBookController {
         setField();
         setCategoryComboBox();
         setQualityComboBox();
+        studentName.setText(LogInController.userID);
     }
 
     public void setField() {

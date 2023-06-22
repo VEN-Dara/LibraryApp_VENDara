@@ -9,7 +9,7 @@ import Controllers.Services;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class StudentExploreAPI {
+public class AdminBorrowAPI {
     public Connection conn;
     public PreparedStatement stmt;
     public ResultSet rs;
@@ -25,17 +25,17 @@ public class StudentExploreAPI {
         this.bookList = bookList;
     }
 
-    public StudentExploreAPI() {
+    public AdminBorrowAPI() {
         conn = DatabaseConnection.conn();
         bookList = FXCollections.observableArrayList();
     }
 
-    public void borrowBook(ObservableList<Books> cartList, String studentID, String borrowDate, String returnDate, String isReturn) {
-        String sql = " INSERT INTO borrowlist(bookID, borrower, borrowDate, returnDate, isReturned) VALUES ";
+    public void borrowBook(ObservableList<Books> cartList, String name, String phone, String borrowDate, String returnDate, String isReturn) {
+        String sql = " INSERT INTO borroweroutside(name, phone, bookID, borrowDate, returnDate, isReturned) VALUES ";
         for(Books books : cartList) {
             int bookID = books.getBookID();
             updateRemain(bookID);
-            sql += "('" + bookID +"','" + studentID +"','" + borrowDate +"','" + returnDate +"','" + isReturn +"'),";
+            sql += "('" + name +"','" + phone +"','" + bookID +"','" + borrowDate +"','" + returnDate +"','" + isReturn +"'),";
         }
         sql = sql.substring(0, sql.length()-1);
         try {
@@ -59,9 +59,9 @@ public class StudentExploreAPI {
         }
     }
 
-    public int getNumberOfBookStudentBorrow(String studentID) {
+    public int getNumberOfBookBorrowerBorrow(String phone) {
         int count = 0;
-        String sql = "SELECT COUNT(borrower) from borrowlist where borrower LIKE '" + studentID + "' and isReturned = '0'";
+        String sql = "SELECT COUNT(name) from borroweroutside where phone LIKE '" + phone + "'";
         try {
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();

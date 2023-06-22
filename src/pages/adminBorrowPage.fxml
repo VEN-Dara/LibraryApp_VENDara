@@ -4,6 +4,7 @@
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -16,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1070.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AdminBookListController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1070.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AdminBorrowController">
    <children>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1070.0" style="-fx-background-color: #DDE6ED;">
          <children>
@@ -33,7 +34,7 @@
                   </AnchorPane>
                </top>
                <center>
-                  <AnchorPane fx:id="listBooksPane" prefHeight="615.0" prefWidth="843.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+                  <AnchorPane prefHeight="615.0" prefWidth="843.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
                      <children>
                         <TextField fx:id="searchField" layoutX="233.0" layoutY="9.0" onAction="#handleSearchField" prefHeight="33.0" prefWidth="329.0" promptText="Search" style="-fx-background-color: white; -fx-border-color: #BCBCBC; -fx-border-radius: 20;" />
                         <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="533.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
@@ -124,19 +125,19 @@
                         </Text>
                         <TableView fx:id="tableView" editable="true" layoutX="23.0" layoutY="243.0" onMouseClicked="#selectItem" prefHeight="356.0" prefWidth="828.0" style="-fx-background-color: #BDE5ED; -fx-background-radius: 5;">
                           <columns>
-                            <TableColumn fx:id="bookIdColumn" prefWidth="100.0" text="ID" />
-                            <TableColumn fx:id="titleColumn" prefWidth="150.0" text="Title" />
-                              <TableColumn fx:id="authorColumn" prefWidth="150.0" text="Author" />
-                              <TableColumn fx:id="qualityColumn" prefWidth="120.0" text="Qaulity" />
-                              <TableColumn fx:id="qauntityColumn" prefWidth="100.0" text="Qauntity" />
-                              <TableColumn fx:id="remainColumn" prefWidth="100.0" text="Remain" />
-                              <TableColumn fx:id="bookSelfColumn" prefWidth="110.0" text="Bookshelf" />
+                            <TableColumn fx:id="bookIdColumn" prefWidth="72.00001525878906" text="ID" />
+                            <TableColumn fx:id="titleColumn" prefWidth="153.60000610351562" text="Title" />
+                              <TableColumn fx:id="authorColumn" prefWidth="170.4000244140625" text="Author" />
+                              <TableColumn fx:id="yearColumn" minWidth="8.79998779296875" prefWidth="84.0" text="Year" />
+                              <TableColumn fx:id="categoryColumn" prefWidth="156.0" text="Category" />
+                              <TableColumn fx:id="pageColumn" prefWidth="63.199951171875" text="Page" />
+                              <TableColumn fx:id="bookSelfColumn" prefWidth="129.5999755859375" text="Bookshelf" />
                           </columns>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </TableView>
-                        <Button fx:id="insertBtn" layoutX="722.0" layoutY="202.0" mnemonicParsing="false" onAction="#handleInsertBtn" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: #DD99FF; -fx-background-radius: 15;" text="Insert         " textFill="#00275c">
+                        <Button fx:id="borrowBtn" layoutX="722.0" layoutY="202.0" mnemonicParsing="false" onAction="#handleBorrowBtn" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: #DD99FF; -fx-background-radius: 15;" text="Borrow         " textFill="#00275c">
                            <font>
                               <Font name="Times New Roman" size="15.0" />
                            </font>
@@ -157,7 +158,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Button fx:id="deleteBook" layoutX="493.0" layoutY="202.0" mnemonicParsing="false" onAction="#handleDeleteBook" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: red; -fx-background-radius: 15;" text="Delete         " textFill="WHITE">
+                        <Button layoutX="606.0" layoutY="202.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: #B8FFAB; -fx-background-radius: 15;" text="Cart      " textFill="#00275c">
                            <font>
                               <Font name="Times New Roman" size="15.0" />
                            </font>
@@ -165,8 +166,12 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <ComboBox fx:id="categoryComboBox" layoutX="74.0" layoutY="13.0" onAction="#haddleCategoryComboBox" prefWidth="150.0" promptText="Category" />
-                        <Button fx:id="editBookBtn" layoutX="608.0" layoutY="202.0" mnemonicParsing="false" onAction="#handleEditBookBtn" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: #B8FFAB; -fx-background-radius: 15;" text="Edit" textFill="#00275c">
+                        <ImageView fitHeight="22.0" fitWidth="23.0" layoutX="668.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/cart.png" />
+                           </image>
+                        </ImageView>
+                        <Button fx:id="addToCartBtn" layoutX="606.0" layoutY="202.0" mnemonicParsing="false" onAction="#handleAddToCartBtn" opacity="0.0" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: #B8FFAB; -fx-background-radius: 15;" text="Cart      " textFill="#00275c">
                            <font>
                               <Font name="Times New Roman" size="15.0" />
                            </font>
@@ -174,7 +179,113 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <AnchorPane fx:id="bookDetailsPane" prefHeight="615.2" prefWidth="974.4" style="-fx-background-color: white;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <ImageView fitHeight="41.0" fitWidth="32.0" layoutX="814.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/carts.png" />
+                           </image>
+                        </ImageView>
+                        <Circle fill="#e4e4e4" layoutX="846.0" layoutY="9.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Text fx:id="cartNumber" fill="#3c00ff" layoutX="843.0" layoutY="14.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                        <Button fx:id="cartBtn" layoutX="796.0" layoutY="6.0" mnemonicParsing="false" onAction="#handleCartBtn" opacity="0.0" prefHeight="42.0" prefWidth="70.0">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                        <ComboBox fx:id="categoryComboBox" layoutX="68.0" layoutY="14.0" onAction="#haddleCategoryComboBox" prefWidth="150.0" promptText="Category" />
+                        <AnchorPane fx:id="cartPane" prefHeight="615.0" prefWidth="872.0" style="-fx-background-color: white;">
+                           <children>
+                              <ImageView fitHeight="41.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="29.0" AnchorPane.topAnchor="26.0">
+                                 <image>
+                                    <Image url="@images/left-arrow.png" />
+                                 </image>
+                              </ImageView>
+                              <Button fx:id="backBtn1" layoutX="18.0" layoutY="22.0" mnemonicParsing="false" onAction="#handleBackPane" opacity="0.0" prefHeight="39.0" prefWidth="52.0" text="Button" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="22.0">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                              <Text fill="#06367a" layoutX="352.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Carts Borrow" wrappingWidth="167.247802734375">
+                                 <font>
+                                    <Font name="Times New Roman Bold" size="25.0" />
+                                 </font>
+                              </Text>
+                              <Text fill="#06367a" layoutX="31.0" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Carts List" wrappingWidth="135.247802734375">
+                                 <font>
+                                    <Font name="Times New Roman Bold" size="25.0" />
+                                 </font>
+                              </Text>
+                              <TableView fx:id="tableViewCart" editable="true" layoutX="22.0" layoutY="245.0" onMouseClicked="#selectItemCart" prefHeight="356.0" prefWidth="828.0" style="-fx-background-color: #BDE5ED; -fx-background-radius: 5;">
+                                 <columns>
+                                    <TableColumn fx:id="bookIdColCart" prefWidth="72.00001525878906" text="ID" />
+                                    <TableColumn fx:id="titleColCart" prefWidth="153.60000610351562" text="Title" />
+                                    <TableColumn fx:id="authorColCart" prefWidth="170.4000244140625" text="Author" />
+                                    <TableColumn fx:id="yearColCart" minWidth="8.79998779296875" prefWidth="84.0" text="Year" />
+                                    <TableColumn fx:id="categoryColCart" prefWidth="156.0" text="Category" />
+                                    <TableColumn fx:id="pageColCart" prefWidth="63.199951171875" text="Page" />
+                                    <TableColumn fx:id="bookSelfColCart" prefWidth="129.5999755859375" text="Bookshelf" />
+                                 </columns>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </TableView>
+                              <Button fx:id="borrowBtn2" layoutX="721.0" layoutY="204.0" mnemonicParsing="false" onAction="#handleBorrowCartBtn" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: #DD99FF; -fx-background-radius: 15;" text="Borrow         " textFill="#00275c">
+                                 <font>
+                                    <Font name="Times New Roman" size="15.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                              <ImageView fitHeight="22.0" fitWidth="23.0" layoutX="791.0" layoutY="209.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/books.png" />
+                                 </image>
+                              </ImageView>
+                              <Button layoutX="605.0" layoutY="204.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: red; -fx-background-radius: 15;" text="Delete" textFill="WHITE">
+                                 <font>
+                                    <Font name="Times New Roman Bold" size="15.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                              <Button fx:id="deleteCartBtn" layoutX="605.0" layoutY="204.0" mnemonicParsing="false" onAction="#handleDeleteCartBtn" opacity="0.0" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: #B8FFAB; -fx-background-radius: 15;" textFill="#00275c">
+                                 <font>
+                                    <Font name="Times New Roman" size="15.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                              <DatePicker fx:id="returnDatePicker" layoutX="559.0" layoutY="104.0" prefHeight="41.0" prefWidth="250.0" promptText="return Date" style="-fx-background-color: white; -fx-border-color: #9DB2BF; -fx-border-radius: 4;" />
+                              <Text fill="#27374d" layoutX="560.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Return Date">
+                                 <font>
+                                    <Font name="Times New Roman" size="20.0" />
+                                 </font>
+                              </Text>
+                              <TextField fx:id="borrowerNameField" layoutX="22.0" layoutY="104.0" prefHeight="41.0" prefWidth="250.0" promptText="AA Bb" style="-fx-border-color: #9DB2BF; -fx-border-radius: 4; -fx-background-color: white;">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </TextField>
+                              <Text layoutX="22.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name">
+                                 <font>
+                                    <Font name="Times New Roman" size="20.0" />
+                                 </font>
+                              </Text>
+                              <TextField fx:id="borrowerNumberPhoneField" layoutX="290.0" layoutY="104.0" prefHeight="41.0" prefWidth="250.0" promptText="AA Bb" style="-fx-border-color: #9DB2BF; -fx-border-radius: 4; -fx-background-color: white;">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </TextField>
+                              <Text layoutX="290.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number Phone">
+                                 <font>
+                                    <Font name="Times New Roman" size="20.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="bookDetailsPane" layoutX="10.0" layoutY="10.0" prefHeight="615.0" prefWidth="874.0" style="-fx-background-color: white;" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <Text fill="#06367a" layoutX="368.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Book Detail" wrappingWidth="135.247802734375">
                                  <font>
@@ -186,112 +297,76 @@
                                     <Image url="@images/default-book.png" />
                                  </image>
                               </ImageView>
-                              <Text fill="#27374d" layoutX="108.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Title:">
+                              <Text fill="#27374d" layoutX="110.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Title:">
                                  <font>
                                     <Font name="Times New Roman" size="20.0" />
                                  </font>
                               </Text>
-                              <Text fill="#27374d" layoutX="108.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Author:">
+                              <Text fill="#27374d" layoutX="110.0" layoutY="193.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Author:">
                                  <font>
                                     <Font name="Times New Roman" size="20.0" />
                                  </font>
                               </Text>
-                              <Text fill="#27374d" layoutX="108.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Year:">
+                              <Text fill="#27374d" layoutX="110.0" layoutY="228.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Year:">
                                  <font>
                                     <Font name="Times New Roman" size="20.0" />
                                  </font>
                               </Text>
-                              <Text fill="#27374d" layoutX="108.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Category:">
+                              <Text fill="#27374d" layoutX="110.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Category:">
                                  <font>
                                     <Font name="Times New Roman" size="20.0" />
                                  </font>
                               </Text>
-                              <Text fill="#27374d" layoutX="108.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Page:">
+                              <Text fill="#27374d" layoutX="110.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Page:">
                                  <font>
                                     <Font name="Times New Roman" size="20.0" />
                                  </font>
                               </Text>
-                              <Text fill="#27374d" layoutX="107.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quality:">
+                              <Text fill="#27374d" layoutX="109.0" layoutY="338.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quality:">
                                  <font>
                                     <Font name="Times New Roman" size="20.0" />
                                  </font>
                               </Text>
-                              <Text fill="#27374d" layoutX="106.0" layoutY="342.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity:">
+                              <Text fill="#27374d" layoutX="108.0" layoutY="374.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bookshelf:">
                                  <font>
                                     <Font name="Times New Roman" size="20.0" />
                                  </font>
                               </Text>
-                              <Text fill="#27374d" layoutX="106.0" layoutY="377.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Remain:">
+                              <Text fx:id="titleText" fill="#27374d" layoutX="219.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Info">
                                  <font>
                                     <Font name="Times New Roman" size="20.0" />
                                  </font>
                               </Text>
-                              <Text fill="#27374d" layoutX="106.0" layoutY="413.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bookshelf:">
+                              <Text fx:id="authorText" fill="#27374d" layoutX="219.0" layoutY="193.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Info">
                                  <font>
                                     <Font name="Times New Roman" size="20.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="titleText" fill="#27374d" layoutX="217.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Info">
+                              <Text fx:id="yearText" fill="#27374d" layoutX="219.0" layoutY="228.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Info">
                                  <font>
                                     <Font name="Times New Roman" size="20.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="authorText" fill="#27374d" layoutX="217.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Info">
+                              <Text fx:id="categoryText" fill="#27374d" layoutX="219.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Info">
                                  <font>
                                     <Font name="Times New Roman" size="20.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="yearText" fill="#27374d" layoutX="217.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Info">
+                              <Text fx:id="pageText" fill="#27374d" layoutX="219.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Info">
                                  <font>
                                     <Font name="Times New Roman" size="20.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="categoryText" fill="#27374d" layoutX="217.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Info">
+                              <Text fx:id="qualityText" fill="#27374d" layoutX="219.0" layoutY="338.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Info">
                                  <font>
                                     <Font name="Times New Roman" size="20.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="pageText" fill="#27374d" layoutX="217.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Info">
+                              <Text fx:id="bookshelfText" fill="#27374d" layoutX="219.0" layoutY="374.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Info">
                                  <font>
                                     <Font name="Times New Roman" size="20.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="qualityText" fill="#27374d" layoutX="217.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Info">
-                                 <font>
-                                    <Font name="Times New Roman" size="20.0" />
-                                 </font>
-                              </Text>
-                              <Text fx:id="quantityText" fill="#27374d" layoutX="217.0" layoutY="342.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Info">
-                                 <font>
-                                    <Font name="Times New Roman" size="20.0" />
-                                 </font>
-                              </Text>
-                              <Text fx:id="remainText" fill="#27374d" layoutX="217.0" layoutY="377.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Info">
-                                 <font>
-                                    <Font name="Times New Roman" size="20.0" />
-                                 </font>
-                              </Text>
-                              <Text fx:id="bookshelfText" fill="#27374d" layoutX="217.0" layoutY="413.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Info">
-                                 <font>
-                                    <Font name="Times New Roman" size="20.0" />
-                                 </font>
-                              </Text>
-                              <Button fx:id="deleteBook1" layoutX="322.0" layoutY="480.0" mnemonicParsing="false" onAction="#handleDeleteBook" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: red; -fx-background-radius: 15;" text="Delete" textFill="WHITE">
-                                 <font>
-                                    <Font name="Times New Roman" size="15.0" />
-                                 </font>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Button>
-                              <Button fx:id="editBookBtn1" layoutX="437.0" layoutY="480.0" mnemonicParsing="false" onAction="#handleEditBookBtn" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: #B8FFAB; -fx-background-radius: 15;" text="Edit" textFill="#00275c">
-                                 <font>
-                                    <Font name="Times New Roman" size="15.0" />
-                                 </font>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Button>
                               <ImageView fitHeight="41.0" fitWidth="31.0" layoutX="29.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@images/left-arrow.png" />
@@ -302,16 +377,50 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Text fill="#27374d" layoutX="108.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Book ID:">
+                              <Text fill="#27374d" layoutX="110.0" layoutY="128.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Book ID:">
                                  <font>
                                     <Font name="Times New Roman" size="20.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="bookIDText" fill="#27374d" layoutX="217.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Info">
+                              <Text fx:id="bookIDText" fill="#27374d" layoutX="219.0" layoutY="128.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Info">
                                  <font>
                                     <Font name="Times New Roman" size="20.0" />
                                  </font>
                               </Text>
+                              <Button fx:id="borrowBtn1" layoutX="439.0" layoutY="476.0" mnemonicParsing="false" onAction="#handleBorrowBtn" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: #DD99FF; -fx-background-radius: 15;" text="Borrow         " textFill="#00275c">
+                                 <font>
+                                    <Font name="Times New Roman" size="15.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                              <ImageView fitHeight="22.0" fitWidth="23.0" layoutX="509.0" layoutY="481.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/books.png" />
+                                 </image>
+                              </ImageView>
+                              <Button layoutX="323.0" layoutY="476.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: #B8FFAB; -fx-background-radius: 15;" text="Cart      " textFill="#00275c">
+                                 <font>
+                                    <Font name="Times New Roman" size="15.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                              <ImageView fitHeight="22.0" fitWidth="23.0" layoutX="385.0" layoutY="481.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/cart.png" />
+                                 </image>
+                              </ImageView>
+                              <Button fx:id="addToCartBtn1" layoutX="323.0" layoutY="476.0" mnemonicParsing="false" onAction="#handleAddToCartBtn" opacity="0.0" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: #B8FFAB; -fx-background-radius: 15;" text="Cart      " textFill="#00275c">
+                                 <font>
+                                    <Font name="Times New Roman" size="15.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
                            </children>
                         </AnchorPane>
                      </children>
@@ -321,7 +430,7 @@
                   <AnchorPane prefHeight="615.0" prefWidth="196.0" style="-fx-background-color: #DDE6ED; -fx-background-radius: 30;" BorderPane.alignment="CENTER">
                      <children>
                         <Circle fill="#00dcff" layoutX="97.0" layoutY="54.0" radius="30.0" stroke="TRANSPARENT" strokeType="INSIDE" />
-                        <Button fx:id="listBookBtn" layoutY="117.0" mnemonicParsing="false" onAction="#handleListBookBtn" prefHeight="44.0" prefWidth="196.0" style="-fx-background-color: #27374D; -fx-background-radius: 0;" text="List Book" textFill="WHITE">
+                        <Button fx:id="listBookBtn" layoutY="117.0" mnemonicParsing="false" onAction="#handleListBookBtn" prefHeight="44.0" prefWidth="196.0" style="-fx-background-color: #DDE6ED; -fx-background-radius: 0;" text="List Book">
                            <font>
                               <Font name="Times New Roman" size="20.0" />
                            </font>
@@ -329,7 +438,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Text fx:id="studentName" layoutX="10.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UserName" textAlignment="CENTER" wrappingWidth="171.4366455078125">
+                        <Text fx:id="adminID" layoutX="10.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UserName" textAlignment="CENTER" wrappingWidth="171.4366455078125">
                            <font>
                               <Font name="Script MT Bold" size="16.0" />
                            </font>
@@ -371,7 +480,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Button fx:id="insertBookBtn" layoutX="1.0" layoutY="299.0" mnemonicParsing="false" onAction="#handleInsertBookBtn" prefHeight="44.0" prefWidth="196.0" style="-fx-background-color: #DDE6ED;" text="Insert Book" textAlignment="CENTER" AnchorPane.leftAnchor="1.0">
+                        <Button fx:id="insertBookBtn" layoutY="299.0" mnemonicParsing="false" onAction="#handleInsertBookBtn" prefHeight="44.0" prefWidth="196.0" style="-fx-background-color: #DDE6ED; -fx-background-radius: 0;" text="Insert Book" textAlignment="CENTER">
                            <font>
                               <Font name="Times New Roman" size="20.0" />
                            </font>
@@ -379,7 +488,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Button fx:id="borrowBookBtn" layoutY="344.0" mnemonicParsing="false" onAction="#handleBorrowBookBtn" prefHeight="44.0" prefWidth="196.0" style="-fx-background-color: #DDE6ED;" text="Borrow Book" textAlignment="CENTER">
+                        <Button layoutY="344.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="196.0" style="-fx-background-color: #27374D; -fx-background-radius: 0;" text="Borrow Book" textAlignment="CENTER" textFill="WHITE">
                            <font>
                               <Font name="Times New Roman" size="20.0" />
                            </font>

@@ -76,7 +76,6 @@ public class Services {
     public Image getImageWithPath(String path) {
         String currentWorkingDir = System.getProperty("user.dir");
         path = currentWorkingDir + path;
-        System.out.println(path);
         Image image = new Image(path);
         return image;
     }

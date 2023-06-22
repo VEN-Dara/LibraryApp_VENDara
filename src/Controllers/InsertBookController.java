@@ -82,13 +82,21 @@ public class InsertBookController {
     private ImageView bookCover;
 
     @FXML
+    private Button borrowBookBtn;
+
+    @FXML
+    void handleBorrowBookBtn(ActionEvent event) {
+        services.openPage(event, "/pages/adminBorrowPage.fxml");
+    }
+
+    @FXML
     void handleCategoryComboBox(ActionEvent event) {
         categoryField.setText(categoryComboBox.getValue());
     }
 
     @FXML
     void handleAdminInfo(ActionEvent event) {
-
+        services.openPage(event, "/pages/adminInfoPage.fxml");
     }
 
     @FXML
@@ -164,18 +172,19 @@ public class InsertBookController {
 
     @FXML
     void handleStudentInfoBtn(ActionEvent event) {
-
+        services.openPage(event, "/pages/adminStudentInfoPage.fxml");
     }
 
     @FXML
     void handlelistBorrowBtn(ActionEvent event) {
-
+        services.openPage(event, "/pages/adminBorrowListPage.fxml");
     }
 
     @FXML
     void initialize() {
         setCategoryComboBox();
         setQualityComboBox();
+        studentName.setText(LogInController.userID);
     }
 
     public void setCategoryComboBox() {

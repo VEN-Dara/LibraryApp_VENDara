@@ -5,7 +5,12 @@ public class Students {
     private String studentName;
     private String studentPhone;
     private String studentPassword;
-
+    
+    public Students(String studentID, String studentName, String studentPhone) {
+        this.studentID = studentID;
+        this.studentName = studentName;
+        this.studentPhone = studentPhone;
+    }
     public Students(String studentID, String studentName, String studentPhone, String studentPassword) {
         this.studentID = studentID;
         this.studentName = studentName;
