@@ -188,10 +188,8 @@ public class AdminBookListController {
 
     @FXML
     void handleDeleteBook(ActionEvent event) {
-        int bookID = selectedBook.getBookID();
-
         if (selectedBook != null) {
-            bookListAPI.deleteBook(bookID);
+            bookListAPI.deleteBook(selectedBook.getBookID());
             tableView.setItems(bookListAPI.getBookList());
             selectedBook = null;
             services.openPage(event, "/pages/adminBookListPage.fxml");
@@ -227,7 +225,7 @@ public class AdminBookListController {
 
     @FXML
     void handleLogOut(ActionEvent event) {
-
+        services.openPage(event, "/pages/homepage.fxml");
     }
 
     @FXML
@@ -290,10 +288,10 @@ public class AdminBookListController {
 
     @FXML
     void initialize() {
-        showListBook();
-        setCategoryComboBox();
-        bookDetailsPane.setVisible(false);
-        studentName.setText(LogInController.userID);
+    showListBook();
+    setCategoryComboBox();
+    bookDetailsPane.setVisible(false);
+    studentName.setText(LogInController.userID);
     }
 
     public void showListBook() {

@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 
 public class AdiminSignInController {
 
+    AccountAPI accountAPI = new AccountAPI();
     @FXML
     private TextField IdField;
 
@@ -53,14 +54,17 @@ public class AdiminSignInController {
         String studentPassword = passwordField.getText();
         String repassword = rePasswordField.getText();
 
+        if(accountAPI.existID("admins", "adminID", studentID)) {
+            services.alertWarnning("Wanning", "Admin ID already existed an account ...!");
+        }
         if(!repassword.equals(studentPassword) ) {
             services.alertWarnning("Incorrect Password", "Please re-input password ...!");
             passwordField.setText("");
             rePasswordField.setText("");
         }
         else {
-            if(studentID == "" || studentName == "" || studentPhone == "" || studentPassword == "") {
-                services.alertWarnning("Complete Problems", "Please complete all fields...");
+            if(studentID == "" || studentName == "" || studentPhone == "" || studentPassword == "" || !services.isNotAllSpace(studentID) || !services.isNotAllSpace(studentName) || !services.isNotAllSpace(studentPhone) || !services.isNotAllSpace(studentPassword) ) {
+                services.alertWarnning("Complete Problems", "All fields must be filled...");
             }
             else if(studentID != "" && studentName != "" && studentPhone != "" && studentPassword != "") {
                 students = new Students(studentID, studentName, studentPhone, studentPassword);

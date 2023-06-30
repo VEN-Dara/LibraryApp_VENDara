@@ -115,6 +115,7 @@ public class AdminBorrowListController {
 
     @FXML
     void handleClearSearch(ActionEvent event) {
+        searchField.setText("");
         adminBorrowListAPI.setBorrowsList(adminBorrowListAPI.getBorrowList("", "", comboText));
     }
 
@@ -130,7 +131,7 @@ public class AdminBorrowListController {
             String studentID = selectedBorrows.getBorrower();
             adminBorrowListAPI.returnBook(bookID, studentID);
             selectedBorrows = null;
-            handleClearSearch(event);
+            handleSearchField(event);
         }
         else {
             services.alertWarnning("Did't selecte Books", "You need to select book in list first ...");
