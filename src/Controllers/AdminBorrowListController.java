@@ -126,15 +126,20 @@ public class AdminBorrowListController {
 
     @FXML
     void handleReturnBookBtn(ActionEvent event) {
-        if(selectedBorrows != null) {
+        if(selectedBorrows != null && selectedBorrows.getIsReturned().equals("No")) {
             int bookID = selectedBorrows.getBookID();
             String studentID = selectedBorrows.getBorrower();
             adminBorrowListAPI.returnBook(bookID, studentID);
             selectedBorrows = null;
             handleSearchField(event);
         }
+        else if(selectedBorrows != null && selectedBorrows.getIsReturned().equals("Yes")) {
+            services.alertWarnning("Warning", "Book already returned ...");
+            selectedBorrows = null;
+
+        }
         else {
-            services.alertWarnning("Did't selecte Books", "You need to select book in list first ...");
+            services.alertWarnning("Didn't select Books", "You need to select book in list first ...");
         }
     }
 
@@ -158,12 +163,19 @@ public class AdminBorrowListController {
     void handleReturnComboBox(ActionEvent event) {
         if(returnComboBox.getValue().equals("Is Borrowing")) {
             comboText = "No";
+            returnBookBtn.setVisible(true);
         }
         else if(returnComboBox.getValue().equals("Returned")) {
             comboText = "Yes";
+            returnBookBtn.setVisible(false);
+        }
+        else if(returnComboBox.getValue().equals("Late Return")) {
+            comboText = "Late Return";
+            returnBookBtn.setVisible(true);
         }
         else {
             comboText = "All";
+            returnBookBtn.setVisible(true);
         }
         handleSearchField(event);
 
@@ -174,6 +186,9 @@ public class AdminBorrowListController {
         showListBook();
         setReturnComboBox();
         studentName.setText(LogInController.userID);
+        returnBookBtn.setVisible(true);
+        returnComboBox.setValue("Is Borrowing");
+
     }
 
     public void showListBook() {
@@ -190,7 +205,7 @@ public class AdminBorrowListController {
     }
 
     public void setReturnComboBox() {
-        ObservableList<String> list = FXCollections.observableArrayList("All", "Is Borrowing", "Returned");
+        ObservableList<String> list = FXCollections.observableArrayList("All", "Is Borrowing", "Returned", "Late Return");
         returnComboBox.setItems(list);
     }
 

@@ -331,7 +331,7 @@
                         </Button>
                         <Text fx:id="studentName" layoutX="10.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="UserName" textAlignment="CENTER" wrappingWidth="171.4366455078125">
                            <font>
-                              <Font name="Script MT Bold" size="16.0" />
+                              <Font name="Times New Roman" size="16.0" />
                            </font>
                         </Text>
                         <Button fx:id="listBorrowBtn" layoutY="163.0" mnemonicParsing="false" onAction="#handlelistBorrowBtn" prefHeight="44.0" prefWidth="196.0" style="-fx-background-color: #DDE6ED;" text="List Borrow">
